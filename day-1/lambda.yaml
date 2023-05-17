@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Lambda function with cfn-response.
+Description: create a lambda function using CF  
 Resources:
   LambdaRole:
     Type: AWS::IAM::Role
@@ -16,7 +16,6 @@ Resources:
                 - lambda.amazonaws.com
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AWSLambdaExecute
-
   LambdaFunctionDemo:
     Type: AWS::Lambda::Function
     Properties:
