@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Lambda function with cfn-response.
+Resources:
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: lambda-role
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSLambdaExecute
+
+  LambdaFunctionDemo:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: CfnLambdaDemo
+      Handler: "index.handler"
+      Code:
+        ZipFile: |
+          import json
+          def handler(event, context):
+            return {
+              "statusCode": 200,
+              "body": json.dumps({"message": "Hello lambda cloudformation"})
+            }
+      Runtime: python3.8
+      MemorySize: 512
+      Timeout: 90
+      Role:
+        Fn::GetAtt:
+          - LambdaRole
+          - Arn
+Outputs:
+  LambdaRoleArn:
+    Description: Role for lambda execution
+    Value:
+      Fn::GetAtt:
+        - LambdaRole
+        - Arn
+  LambdaFunctionName:
+    Value:
+      Ref: LambdaFunctionDemo
