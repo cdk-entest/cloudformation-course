@@ -22,9 +22,17 @@ This section will walk through how to setup a developing environment on AWS Clou
 - Boostrap CDK
 - Install TypeScript
 
-First, let go to the AWS Console and create a new Cloud9 environment.
+First, let go to the AWS Console and create a new Cloud9 environment. <br>
 
-TODO: screen-shot here
+<img width="1060" alt="Screen Shot 2023-08-09 at 06 06 59" src="https://github.com/cdk-entest/cloudformation-course/assets/20411077/a46d29e9-a24f-4528-8472-2bbb65585a4b">
+
+Select a m5.large EC2 instance to run the Cloud9, the rest options can be left as default. <br>
+
+<img width="1060" alt="Screen Shot 2023-08-09 at 06 07 17" src="https://github.com/cdk-entest/cloudformation-course/assets/20411077/e0184566-9c51-4c29-800d-bfc60f20b04b">
+
+Click CREATE button to create a new Cloud9 environment. <br>
+
+<img width="1412" alt="Screen Shot 2023-08-09 at 06 07 33" src="https://github.com/cdk-entest/cloudformation-course/assets/20411077/d3500022-597a-49b1-aef6-22a232bcb077">
 
 Second, it is required to run cdk boostrap which provision some required resources in a specified region. For example, the boostrap process creates a S3 bucket for storing artfiacts. Please note that this is required before we can deploy any stack in a region.
 
