@@ -15,10 +15,9 @@ This note shows how to get started with CloudFormation by building a very basic 
 
 ## Architecture
 
+![vpc](https://github.com/cdk-entest/cloudformation-course/assets/20411077/6d68ee7a-9a7f-4451-ac13-62a74549bf75)
+
 The architecture is very simple whhich consist of a VPC, a public subnet and a EC2 instance as below diagram
-
-![vpc](https://github.com/cdk-entest/cloudformation-course/assets/20411077/2b6d4e96-76f6-49e5-8f34-a0d2b019fb81)
-
 
 ## CloudFormation
 
