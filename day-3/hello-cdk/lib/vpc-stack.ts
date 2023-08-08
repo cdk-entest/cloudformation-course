@@ -1,4 +1,6 @@
-import { Stack, StackProps, aws_ec2, aws_iam } from "aws-cdk-lib";
+import { Stack, StackProps } from "aws-cdk-lib";
+import * as aws_ec2 from "aws-cdk-lib/aws-ec2"
+import * as aws_iam from 'aws-cdk-lib/aws-iam'
 import { Construct } from "constructs";
 import * as fs from "fs";
 
@@ -16,8 +18,8 @@ export class VpcStack extends Stack {
   constructor(scope: Construct, id: string, props: VpcProps) {
     super(scope, id, props);
 
-    this.vpc = new aws_ec2.Vpc(this, "VpcAlbDemo", {
-      vpcName: "VpcAlbDemo",
+    this.vpc = new aws_ec2.Vpc(this, "VpcDemo", {
+      vpcName: "VpcDemo",
       cidr: props.cidr,
       // max number of az
       maxAzs: 1,
@@ -60,9 +62,9 @@ export class ApplicationStack extends Stack {
     );
 
     // security group for webserver
-    const sg = new aws_ec2.SecurityGroup(this, "WebServerPollySecurityGroup", {
+    const sg = new aws_ec2.SecurityGroup(this, "SecurityGroupForWebServer", {
       vpc: props.vpc,
-      securityGroupName: "WebServerPollySecurityGroup",
+      securityGroupName: "SecurityGroupForWebServer",
     });
 
     sg.addIngressRule(aws_ec2.Peer.anyIpv4(), aws_ec2.Port.tcp(80));
