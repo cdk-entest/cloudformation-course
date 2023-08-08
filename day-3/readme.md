@@ -170,7 +170,7 @@ cdk deploy
 
 To verify the deployed stack, go to CloudFormation service in aws console and look for the HelloCdkStack. To test the deployed Lambda function, go to the Lambda service and search for a function named HelloLambdaFunction.
 
-TODO: screen-shot figures here
+<img width="1426" alt="Screen Shot 2023-08-09 at 06 22 19" src="https://github.com/cdk-entest/cloudformation-course/assets/20411077/87a5dca7-3fad-4eec-a953-ab80c9d1be79">
 
 ## VPC Stack
 
@@ -311,6 +311,8 @@ Now let deploy all stacks by running the following command
 ```bash
 cdk deploy --all
 ```
+
+<img width="1426" alt="Screen Shot 2023-08-09 at 06 22 36" src="https://github.com/cdk-entest/cloudformation-course/assets/20411077/e6e63a65-678a-4ce3-aad9-65d702414594">
 
 ## Clean Resources
 
