@@ -166,6 +166,8 @@ TODO: screen-shot figures here
 
 ## VPC Stack
 
+![vpc](https://github.com/cdk-entest/cloudformation-course/assets/20411077/ee6a54c2-758f-4e6a-89cb-81be65467c5c)
+
 Let create a simple webserver with the following components
 
 - A VPC with a public subnet
