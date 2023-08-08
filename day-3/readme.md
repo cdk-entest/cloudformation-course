@@ -7,7 +7,7 @@ publishedDate: 08/08/2023
 
 ## Introduction
 
-The CDK (Cloud Development Kit) lets you build infrastructure on AWS using programming langugages such as TypesScript, JavaScript, Python, Java, C#/.Net, and Go. This note helps you quickly getting started with CDK through building some simple architects.
+The CDK (Cloud Development Kit) lets developers building infrastructure on AWS using programming langugages such as TypesScript, JavaScript, Python, Java, C#/.Net, and Go. This note shows how to quickly getting started with CDK through some simple architects.
 
 - Setup environment
 - Hello CDK
@@ -16,19 +16,29 @@ The CDK (Cloud Development Kit) lets you build infrastructure on AWS using progr
 
 ## Setup Environment
 
-First we need to run cdk bootstrap which provision some required resources in a specified region. This is required before we can deploy any stack in a region.
+This section will walk through how to setup a developing environment on AWS Cloud9. There are three steps
+
+- Setup an AWS Cloud9 enviroment
+- Boostrap CDK
+- Install TypeScript
+
+First, let go to the AWS Console and create a new Cloud9 environment.
+
+TODO: screen-shot here
+
+Second, it is required to run cdk boostrap which provision some required resources in a specified region. For example, the boostrap process creates a S3 bucket for storing artfiacts. Please note that this is required before we can deploy any stack in a region.
 
 ```bash
-cdk bootstrap aws://AWS_ACCOUNT_ID/REGION
+cdk bootstrap aws://REPLACE_WITH_AWS_ACCOUNT_ID/REPLACE_WITH_REGION
 ```
 
-Second, we need to install TypeScript
+Third, let install TypeScript
 
 ```bash
 npm install -g typescript
 ```
 
-Third, We can refere to cdk environment [variables](https://docs.aws.amazon.com/cdk/v2/guide/environments.html) in our stack code as below
+The CDK provides enviroment [variables](https://docs.aws.amazon.com/cdk/v2/guide/environments.html) which can be used when developing stacks. For example, instead of writing explicitly ACCOUNT_ID and REGION, it is a best pratice to use environment variables as below
 
 ```js
 new MyDevStack(app, "dev", {
@@ -81,10 +91,17 @@ A new project is created with structure as below
 An application should be declared in hello-cdk.ts
 
 ```ts
+import * as cdk from "aws-cdk-lib";
+import { HelloCdkStack } from "../lib/hello-cdk-stack";
 
+// cdk application
+const app = new cdk.App();
+
+// lambda stack
+new HelloCdkStack(app, "HelloCdkStack", {});
 ```
 
-The application can consists of multiple stacks which should be located in the lib directory. To synthesize CloudFormation templates from TypeScript, we run the following command from the root directory of the project
+The application can consists of multiple stacks which should be located in the lib directory. To synthesize CloudFormation templates from TypeScript, run the following command from the root directory of the project
 
 ```bash
 cdk synth
@@ -94,7 +111,12 @@ The synthesized CloudFormation templates are stored in cdk.out such as HelloCdkS
 
 ## Lambda Stack
 
-Let create a stack to deploy a Lambda function
+Now let create a stack to deploy a Lambda function with basic parameters
+
+- Execution role
+- Runtime Python 3.10
+- Timeout 10 seconds
+- Memory 512MB
 
 ```ts
 import { Construct } from "constructs";
@@ -132,17 +154,26 @@ export class HelloCdkStack extends Stack {
 }
 ```
 
-Now let deploy the stack by running the following command. By running this command, the HelloCdkLambdaStack is synthesized into a CloudFormation template, then is deployed to CloudFormation servcie.
+To deploy the Lambda function, run the cdk deploy command. CDK first synthesizes the HelloCdkStack from TypeScript to a CloudFormation template (HelloCdkStack.template.json) stored in cdk.out. Then CloudFormation service deploys the template.
 
 ```bash
 cdk deploy
 ```
 
-To verify the deployed stack, go to CloudFormation service in aws console and we can see the HelloCdkStack. Then we can go to the Lambda service and test the deployed HelloLambdaFunction.
+To verify the deployed stack, go to CloudFormation service in aws console and look for the HelloCdkStack. To test the deployed Lambda function, go to the Lambda service and search for a function named HelloLambdaFunction.
+
+TODO: screen-shot figures here
 
 ## VPC Stack
 
-Let create a basic VPC stack with a CIDR params which can be passed as a prop.
+Let create a simple webserver with the following components
+
+- A VPC with a public subnet
+- A security group for the webserver
+- A EC2 instance for the webserver
+- Add user-data to the EC2
+
+First, create a basic VPC stack with a CIDR params which can be passed as a prop.
 
 ```ts
 interface VpcProps extends StackProps {
@@ -185,7 +216,7 @@ export class VpcStack extends Stack {
 }
 ```
 
-Next, let create an application stack which is a webserver with userdata to run a simple web (Fask) application. Since the EC2 located in the public subnet and attached an AmazonSSMManagedInstanceCore, then later on we can connect to the EC2 via system manager service.
+Next, create an application stack which is a webserver with userdata to run a simple web (Flask) application. Since the EC2 located in the public subnet and attached an AmazonSSMManagedInstanceCore, then it is possible to access the EC2 via system manager service.
 
 ```ts
 export class ApplicationStack extends Stack {
@@ -238,7 +269,7 @@ export class ApplicationStack extends Stack {
 }
 ```
 
-Finally, we need to update the App to include both the VPCStack and the ApplicationStack. As the application can be deployed only after the vpc avaiable, therefore, we need to add a depedency between webserver and vpc.
+Finally, update the CDK Ap (hello-cdk.ts) to include both the VPCStack and the ApplicationStack. As the application can be deployed only after the vpc avaiable, therefore, it is required to add a dependency between the webserver and the vpc.
 
 ```ts
 #!/usr/bin/env node
