@@ -312,7 +312,7 @@ Now let deploy all stacks by running the following command
 cdk deploy --all
 ```
 
-<img width="1426" alt="Screen Shot 2023-08-09 at 06 22 36" src="https://github.com/cdk-entest/cloudformation-course/assets/20411077/e6e63a65-678a-4ce3-aad9-65d702414594">
+<img width="1426" alt="Screen Shot 2023-08-09 at 06 25 07" src="https://github.com/cdk-entest/cloudformation-course/assets/20411077/7e13cd2e-0fec-4361-ab70-8f02a0e35e97">
 
 ## Clean Resources
 
